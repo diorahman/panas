@@ -1,5 +1,6 @@
 module.exports = {
   Router : require ("./router"),
   Handle : require ("./handle"),
-  thunkified : require ("./thunkified")
+  thunkified : require ("./thunkified"),
+  db : require ("./db")
 };
