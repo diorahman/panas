@@ -1,5 +1,5 @@
 {
-  "name": "sinergis-api",
+  "name": "panas",
   "version": "0.0.1",
   "description": "sinergis api",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "sinergis",
     "api"
   ],
-  "author": "Dhi Aurrahman <diorahman@gmail.com>",
+  "author": "Dhi Aurrahman <diorahman@rockybars.com>",
   "license": "MIT",
   "dependencies": {
     "koa-mount": "^1.2.5",
