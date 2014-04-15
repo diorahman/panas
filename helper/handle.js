@@ -6,6 +6,7 @@ var _ = require ("lodash");
 var mime = require ("mime");
 var util = require ("util");
 var events = require("events");
+var field = require ("./field");
 var parse = require ("co-body");
 var parsf = require ("co-busboy");
 var upload = require ("./upload");
