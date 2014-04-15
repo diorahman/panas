@@ -1,6 +1,6 @@
 {
   "name": "panas",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "sinergis api",
   "main": "index.js",
   "scripts": {
