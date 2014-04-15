@@ -1,6 +1,6 @@
 {
   "name": "panas",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "sinergis api",
   "main": "index.js",
   "scripts": {
@@ -25,6 +25,7 @@
     "thunkify": "^1.0.0",
     "gridfs-stream": "^0.4.1",
     "mongoose": "^3.8.8",
-    "async": "^0.7.0"
+    "async": "^0.7.0",
+    "change-case": "^2.1.0"
   }
 }
