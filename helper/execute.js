@@ -18,7 +18,7 @@ module.exports = function (params, cb) {
 
   function create (task, opt, ctx){
     return function (cb) {
-      task(ctx, opt, cb);
+      task.call (scope, ctx, opt, cb);
     }
   }
   

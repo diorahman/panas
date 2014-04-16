@@ -4,5 +4,6 @@ module.exports = {
   thunkified : require ("./thunkified"),
   db : require ("./db"),
   login : require ("./login"),
-  error : require ("./error")
+  error : require ("./error"),
+  execute : require ("./execute")
 };
