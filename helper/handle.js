@@ -18,6 +18,12 @@ var onFinished = require("finished");
  */
 module.exports = Handler;
 
+function handleError(ctx, err){
+  ctx.status = err.status || 500; 
+  ctx.body = err;
+  ctx.app.emit("error", err, ctx);
+};
+
 /**
  * Handler function
  * Prepared as event emitter, hence we can use it as handler-centric error handler
@@ -43,8 +49,7 @@ Handler.prototype.get = function * (ctx, action, options) {
     ctx.body = yield act.call (model.scope, ctx, {});
 
   } catch (err) {
-    console.log (err);
-    ctx.throw (err.status || 500);
+    handleError(ctx, err);
   }
 }
 
@@ -63,8 +68,7 @@ Handler.prototype.post = function * (ctx, action, options) {
     ctx.body = yield act.call (model.scope, ctx, { body : body });
 
   } catch (err) {
-    console.log (err);
-    ctx.throw (err.status || 500);
+    handleError(ctx, err);
   }
 }
 
@@ -117,8 +121,7 @@ Handler.prototype.uploadFile = function * (ctx, action, options) {
     ctx.body = yield act.call (model.scope, ctx, ctx.gfs, form);
 
   } catch (err) {
-    console.log (err);
-    ctx.throw (err.status || 500);
+    handleError(ctx, err);
   }
 }
 
@@ -144,8 +147,6 @@ Handler.prototype.downloadFile = function * (ctx, handle, action, options) {
     onFinished(this, stream.destroy.bind(stream));
 
   } catch (err) {
-    console.log (err);
-    ctx.throw (err.status || 500);
+    handleError(ctx, err);
   }
 }
-

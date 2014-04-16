@@ -3,5 +3,6 @@ module.exports = {
   Handle : require ("./handle"),
   thunkified : require ("./thunkified"),
   db : require ("./db"),
-  login : require ("./login")
+  login : require ("./login"),
+  error : require ("./error")
 };
