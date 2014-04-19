@@ -110,8 +110,9 @@ Handler.prototype.uploadFile = function * (ctx, action, options) {
         gfsOpt.mode = "w";
         gfsOpt.content_type = mime.lookup (part.filename);
         gfsOpt.filename = part.filename;
+        var fieldName = part.fieldname;
         var file = yield upload (ctx.gfs, gfsOpt, part);
-        form[part.fieldname || "file"] = file; 
+        form[fieldName || "file"] = file; 
       }
       else {
         form = _.merge (form, field(part));
