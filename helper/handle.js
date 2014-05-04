@@ -145,11 +145,26 @@ Handler.prototype.downloadFile = function * (ctx, action, options) {
     opt = _.merge(opt, gfsOpt);
 
     if (!ctx.query.hasOwnProperty("stream")) {
+      ctx.set("Cache-Control", "no-cache");
       ctx.attachment(opt.filename || "file" );
     }
+
+    var rs = Readable();
+    var ws = Writable();
+    rs._read = function(){};
+    ws._write = function(chunk, enc, next){      
+      rs.push(chunk);
+      next();
+    }
     
-    ctx.type = opt.contentType || "application/octet-stream";  
-    var stream = ctx.body = ctx.gfs.createReadStream(opt);
+    var stream = ctx.gfs.createReadStream(opt);
+    stream.pipe(ws);
+    stream.on("end", function(){
+      rs.push(null);
+    });
+
+    ctx.type = opt.contentType || "application/octet-stream"
+    ctx.body = rs;
     onFinished(ctx, stream.destroy.bind(stream));
 
   } catch (err) {
