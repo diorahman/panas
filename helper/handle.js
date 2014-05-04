@@ -129,9 +129,9 @@ Handler.prototype.uploadFile = function * (ctx, action, options) {
 /**
  * Generic GET a stream of file
  */
-Handler.prototype.downloadFile = function * (ctx, handle, action, options) {
+Handler.prototype.downloadFile = function * (ctx, action, options) {
   try {
-    var model = handle.model;
+    var model = this.model;
     var act = model.thunkified[action];
 
     var gfsOpt = options.gfsOpt || {};
@@ -144,8 +144,13 @@ Handler.prototype.downloadFile = function * (ctx, handle, action, options) {
     // TODO: validate opt
     opt = _.merge(opt, gfsOpt);
 
+    if (!ctx.query.hasOwnProperty("stream")) {
+      ctx.attachment(opt.filename || "file" );
+    }
+    
+    ctx.type = opt.contentType || "application/octet-stream";  
     var stream = ctx.body = ctx.gfs.createReadStream(opt);
-    onFinished(this, stream.destroy.bind(stream));
+    onFinished(ctx, stream.destroy.bind(stream));
 
   } catch (err) {
     handleError(ctx, err);
