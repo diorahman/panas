@@ -11,7 +11,8 @@ var parse = require ("co-body");
 var parsf = require ("co-busboy");
 var upload = require ("./upload");
 var onFinished = require("finished");
-
+var Readable = require("stream").Readable;
+var Writable = require("stream").Writable;
 
 /**
  * Expose handler
