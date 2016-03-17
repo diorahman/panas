@@ -13,6 +13,7 @@ var upload = require ("./upload");
 var onFinished = require("finished");
 var Readable = require("stream").Readable;
 var Writable = require("stream").Writable;
+var base64Stream = require("base64-stream");
 
 /**
  * Expose handler
@@ -144,6 +145,12 @@ Handler.prototype.downloadFile = function * (ctx, action, options) {
 
     // TODO: validate opt
     opt = _.merge(opt, gfsOpt);
+    if (!opt) {
+      opt = {};
+    }
+    if (!opt.filename && ctx.params.filename) {
+      opt.filename = ctx.params.filename;
+    }
 
     if (!ctx.query.hasOwnProperty("stream")) {
       ctx.set("Cache-Control", "no-cache");
@@ -157,15 +164,17 @@ Handler.prototype.downloadFile = function * (ctx, action, options) {
       rs.push(chunk);
       next();
     }
-    
     var stream = ctx.gfs.createReadStream(opt);
+    stream.on("error", function(err) {
+      return handleError(ctx, err);
+    })
     stream.pipe(ws);
     stream.on("end", function(){
       rs.push(null);
     });
 
     ctx.type = opt.contentType || "application/octet-stream"
-    ctx.body = rs;
+    ctx.body = rs.pipe(base64Stream.encode());
     onFinished(ctx, stream.destroy.bind(stream));
 
   } catch (err) {
